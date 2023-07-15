@@ -1,17 +1,18 @@
 import sys
 
-dp = [[-1] * 300] * 100000
-
-def solution(n, array):
-    def path(x, sum):
-        if x == n:
-            return sum + array[x]
-        return max([path(x + 1, sum + array[x]), path(x + 2, sum + array[x])])
-    
-    return 
-
 
 n = int(sys.stdin.readline())
-array = [int(sys.stdin.readline()) for _ in range(n)]
+numbers = [int(sys.stdin.readline()) for _ in range(n)]
+dp = [0 for _ in range(n + 1)]
 
-print(solution(n, array))
+if n == 1:
+    print(numbers[-1])
+else:
+    dp[0] = 0
+    dp[1] = numbers[0]
+    dp[2] = numbers[0] + numbers[1]
+
+    for i in range(3, n + 1):
+        dp[i] = max(dp[i - 3] + numbers[i - 2] + numbers[i - 1], dp[i - 2] + numbers[i - 1])
+
+    print(dp[-1])
